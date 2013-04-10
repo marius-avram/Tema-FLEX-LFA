@@ -1,0 +1,50 @@
+334CB AVRAM Marius
+Tema LEX Limbaje Formale si Automate
+
+Pentru rezolvarea temei am folosit FLEX si C++. Partea de parsare am facut-o 
+integral in FLEX. Pentru o parsare cat mai eficienta am folosit starile din flex
+care permit interpretarea simbolurilor din fisierul sursa in diverse moduri in 
+functie de contextul in care acestea se regasesc. De exemplu o paranteza simpla
+in declararea masinii Turing semnifica o ramificatie in timp ce o paranteza 
+in interiorul unei perechi de paranteze patrate specifica faptul ca se doreste 
+o actiune de mutare pe banda pana la simbolul dintre paranteze sau pana cand 
+se intalneste unul diferit fata de simbolul dintre paranteze. Totul depinde 
+de contextul in care se regasesc. 
+
+O data cu parsarea codului sursa se construieste masina Turing care este un 
+fel de arbore. Pot exista cicluri in acesta. Pentru construirea masinii turing 
+am definit o clasa ce reprezinta o stare prin care trebuie sa treaca masina/
+automatul. Aceasta clasa se numeste TuringCell. Din fiecare stare se poate 
+trece in alta stare sau mai multe stari. Bineinteles ca la rularea masinii 
+pe o banda de intrare se va alege numai o singura stare, desi este posibil ca 
+aceasta sa dispuna de mai multe. 
+
+Daca starea curenta are doar o stare "fiu" atunci aceasta este default si de 
+obicei nu necesita citirea unui simbol de pe banda. Are asociat un simbol 
+default egal cu '\0'. Am considerat ca acest simbol nu va fi folosit pe banda 
+de intrare. Cand exista o ramificatie fiecare stare are o cheie asociata. 
+Cheia poate fi reprezentata de mai multe caractere fiecare dintre ele
+reprezentand o optiune de citire de pe banda. Pentru a evita duplicarea 
+anumitor ramuri ale arborelui am creat o clasa Symbol ce permite pastrarea mai
+multor caractere pentru un singur simbol/o singura cheie. Totodata acesta metoda
+permite legarea variabilelor locale la o anumita valoare in functie de valoarea 
+citita de pe banda, cand este necesara aceasta citire.
+
+Pentru portiunea de declaratii am folosit diverse containere. Pentru alfabet 
+am folosit un vector in timp ce pentru variabile si vectori am folosit tabele
+asociative (mapuri). Exista si o stiva de stari pastrata pentru ramificatii.
+Fiecare stare de inceput din interiorul unei ramificatii trebuie adaugata ca 
+urmas la starea dinaintea ramificatiei. Datorita avansarii in arbore aceste 
+stari trebuie salvate undeva. Stiva este optiunea perfecta pentru ca pot exista 
+ramificatii in interiorul altor ramificatii. Si nu in cele din urma exista un 
+map care pastreaza toate masinile turing declarate in fisierul sursa. Fiecare 
+masina are asociat un nume identic cu cel din fisier. Mai sunt si alte 
+containere ce pastreaza datele temporar (pe ramificatie sau masina turing).
+
+Am incercat sa organizez codul cat mai bine posibil. Am adaugat comentarii 
+acolo unde a fost cazul. Prin citirea acestora se pot intelege mai bine 
+detaliile de implementare.
+
+
+
+
